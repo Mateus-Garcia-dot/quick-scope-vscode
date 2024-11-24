@@ -9,15 +9,29 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished",
+    "onDidChangeActiveTextEditor"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "quick-scope-vscode.helloWorld",
-        "title": "Hello World"
+    "commands": [],
+     "configuration": {
+      "type": "object",
+      "title": "Line Change Highlight Settings",
+      "properties": {
+        "lineChangeHighlight.firstColor": {
+          "type": "string",
+          "default": "#00FF00",
+          "description": "The color of the first letter to jump"
+        },
+        "lineChangeHighlight.secondColor": {
+          "type": "string",
+          "default": "#0000FF",
+          "description": "The color of the second letter to jump"
+        }
       }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
