@@ -6,7 +6,7 @@ export function getCoordinatesToHighlight(line: string, cursorCol: number): [num
     const [first_occurences_left, second_occurences_left] = getOccurrences(reverseString(left))
         .map(nested => nested.map(coord => cursorCol - coord - 1));
     const [first_occurences_right, second_occurences_right] = getOccurrences(right)
-        .map(nested => nested.map(coord => cursorCol + coord + 1));
+        .map(nested => nested.map(coord => cursorCol + coord));
     const fix_coords_first = [...first_occurences_left, ...first_occurences_right];
     const fix_coords_second = [...second_occurences_left, ...second_occurences_right];
     return [
@@ -38,9 +38,11 @@ function splitArrayOnNull<T>(arr: Array<T>): Array<Array<T>> {
 function getOccurrences(line: string): [number[], number[]] {
     const hash_accepted_chars: { [key: string]: number } = accepted_chars.reduce((acc, value) => ({ ...acc, [value]: 0 }), {});
     const describe_line = [];
+    let isFirstBlock = true;
     for (let index = 0; index < line.length; index++) {
         const char = line[index];
         if (!accepted_chars.includes(char)) {
+            isFirstBlock = false;
             describe_line.push(null);
             continue;
         }
@@ -48,11 +50,13 @@ function getOccurrences(line: string): [number[], number[]] {
             index,
             frequency: hash_accepted_chars[char]++
         };
+        if (isFirstBlock) {
+          continue;
+        }
         describe_line.push(describe_char);
     }
     const filtered_describe_line = describe_line.filter((value) => value === null || value.frequency < 2);
     const splited = splitArrayOnNull(filtered_describe_line);
-    splited.shift();
     const reduces = splited.map((arr) => arr.reduce((acc, value) => (acc?.frequency || 0)  < (value?.frequency || 0) ? acc : value));
     return reduces.reduce((acc: [number[], number[]], value) => {
         if (value?.frequency !== undefined) {
@@ -64,7 +68,7 @@ function getOccurrences(line: string): [number[], number[]] {
 
 
 function splitAt(i: number, str: string): [string, string] {
-    return [str.slice(0, i), str.slice(i + 1)];
+    return [str.slice(0, i), str.slice(i)];
 }
 
 function reverseString(str: string): string {
