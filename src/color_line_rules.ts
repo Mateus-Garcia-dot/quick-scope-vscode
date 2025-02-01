@@ -57,7 +57,7 @@ function getOccurrences(line: string): [number[], number[]] {
     }
     const filtered_describe_line = describe_line.filter((value) => value === null || value.frequency < 2);
     const splited = splitArrayOnNull(filtered_describe_line);
-    const reduces = splited.map((arr) => arr.reduce((acc, value) => (acc?.frequency || 0)  < (value?.frequency || 0) ? acc : value));
+    const reduces = splited.map((arr) => arr.reduce((acc, value) => (acc?.frequency || 0)  <= (value?.frequency || 0) ? acc : value));
     return reduces.reduce((acc: [number[], number[]], value) => {
         if (value?.frequency !== undefined) {
             acc[value.frequency].push(value.index);
