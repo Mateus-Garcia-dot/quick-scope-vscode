@@ -17,11 +17,11 @@ export function handleLineChangeEvent(editor: vscode.TextEditor | undefined): vo
 
     revertDecorations();
 
-    const [first_occurences, second_ocurrences] = getCoordinatesToHighlight(lineContent, currentCharacter);
-    first_occurences.map((charCoord) => {
+    const highlights = getCoordinatesToHighlight(lineContent, currentCharacter);
+    highlights.firstJumps.map((charCoord) => {
         applyTextColor(editor, currentLine, charCoord, firstColor);
     });
-    second_ocurrences.map((charCoord) => {
+    highlights.secondJumps.map((charCoord) => {
         applyTextColor(editor, currentLine, charCoord, secondColor);
     });
 
