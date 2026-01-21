@@ -20,11 +20,63 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
-    "commands": [],
-     "configuration": {
+    "commands": [
+      {
+        "command": "quick-scope-vscode.triggerFind",
+        "title": "Quick Scope: Find Forward (f)"
+      },
+      {
+        "command": "quick-scope-vscode.triggerFindBackward",
+        "title": "Quick Scope: Find Backward (F)"
+      },
+      {
+        "command": "quick-scope-vscode.triggerTill",
+        "title": "Quick Scope: Till Forward (t)"
+      },
+      {
+        "command": "quick-scope-vscode.triggerTillBackward",
+        "title": "Quick Scope: Till Backward (T)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "quick-scope-vscode.triggerFind",
+        "key": "f",
+        "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
+      },
+      {
+        "command": "quick-scope-vscode.triggerFindBackward",
+        "key": "shift+f",
+        "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
+      },
+      {
+        "command": "quick-scope-vscode.triggerTill",
+        "key": "t",
+        "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
+      },
+      {
+        "command": "quick-scope-vscode.triggerTillBackward",
+        "key": "shift+t",
+        "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
+      }
+    ],
+    "configuration": {
       "type": "object",
-      "title": "Line Change Highlight Settings",
+      "title": "Quick Scope Settings",
       "properties": {
+        "quickScope.activationMode": {
+          "type": "string",
+          "enum": [
+            "always",
+            "onKeyPress"
+          ],
+          "enumDescriptions": [
+            "Always show highlights in Normal/Visual mode",
+            "Only show highlights when pressing f/F/t/T"
+          ],
+          "default": "always",
+          "description": "When to show Quick Scope highlights"
+        },
         "lineChangeHighlight.firstColor": {
           "type": "string",
           "default": "#00FF00",
